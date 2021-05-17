@@ -14,6 +14,9 @@ stages{
     steps{
    script{
      def pom = readMavenPom file: 'pom.xml'
+
+     def repository=pom.version.endsWith("SNAPSHOT") ? 'jyothihome-snapshot' : 'jyothihome-release'
+
       nexusArtifactUploader artifacts: 
       [[artifactId: 'myweb', classifier: '',file: "target/myweb-${pom.version}.war", type: 'war']], 
        credentialsId: 'admin', 
@@ -21,7 +24,7 @@ stages{
        nexusUrl: '172.31.75.95:8081', 
        nexusVersion: 'nexus3', 
        protocol: 'http', 
-       repository: 'jyothihome-snapshot', 
+       repository: repository,
        version: pom.version
       }
     }

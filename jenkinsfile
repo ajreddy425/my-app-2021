@@ -12,8 +12,8 @@ stages{
    }
    stage('Upload to nexus'){
     steps{
-
-       def pom = readMavenPom file: 'pom.xml'
+   scripts{
+     def pom = readMavenPom file: 'pom.xml'
       nexusArtifactUploader artifacts: 
       [[artifactId: 'myweb', classifier: '',file: "target/myweb-${pom.version}.war", type: 'war']], 
        credentialsId: 'admin', 
@@ -23,8 +23,8 @@ stages{
        protocol: 'http', 
        repository: 'jyothihome-snapshot', 
        version: pom.version
+      }
     }
-
    }
 stage('dev-deploy'){
      when{

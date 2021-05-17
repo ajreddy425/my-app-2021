@@ -12,7 +12,7 @@ stages{
    }
    stage('Upload to nexus'){
     steps{
-   scripts{
+   script{
      def pom = readMavenPom file: 'pom.xml'
       nexusArtifactUploader artifacts: 
       [[artifactId: 'myweb', classifier: '',file: "target/myweb-${pom.version}.war", type: 'war']], 

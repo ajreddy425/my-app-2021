@@ -13,7 +13,7 @@ stages{
    stage('Upload to nexus'){
     steps{
       nexusArtifactUploader artifacts: 
-      [[artifactId: 'myweb', classifier: '',file: 'myweb-0.0.1-SNAPSHOT.war', type: 'war']], 
+      [[artifactId: 'myweb', classifier: '',file: 'target/myweb-0.0.1-SNAPSHOT.war', type: 'war']], 
        credentialsId: 'admin', 
        groupId: 'in.javahome', 
        nexusUrl: '172.31.75.95:8081', 

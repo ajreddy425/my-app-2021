@@ -1,0 +1,35 @@
+pipeline{
+agent any
+tools{
+   maven 'maven3'
+}
+
+stages{
+   stage('maven build'){
+    steps{
+         sh "mvn clean package"
+    }
+   }
+   stage('Upload to nexus'){
+    steps{
+      nexusArtifactUploader artifacts: 
+      [[artifactId: 'myweb', classifier: '',file: 'myweb-0.0.1-SNAPSHOT.war', type: 'war']], 
+       credentialsId: 'admin', 
+       groupId: 'in.javahome', 
+       nexusUrl: '172.31.75.95:8081', 
+       nexusVersion: 'nexus3', 
+       protocol: 'http', 
+       repository: 'jyothihome-snapshot', 
+       version: '0.0.1-SNAPSHOT'
+    }
+   }
+stage('dev-deploy'){
+     when{
+     branch "dev"
+     }
+     steps{
+      echo "deploy to dev enironment"
+       }
+    }
+  }
+}

@@ -15,7 +15,7 @@ stages{
    }
    stage('Upload to nexus'){
         when{
-     branch "dev"
+     branch "develop"
      }
     steps{
    script{

@@ -7,7 +7,7 @@ tools{
 stages{
    stage('maven build'){
         when{
-     branch "dev"
+     branch "develop"
      }
     steps{
          sh "mvn clean package"
@@ -15,7 +15,7 @@ stages{
    }
    stage('Upload to nexus'){
         when{
-     branch "dev"
+     branch "develop"
      }
     steps{
    script{

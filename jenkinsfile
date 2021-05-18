@@ -6,16 +6,22 @@ tools{
 
 stages{
    stage('maven build'){
+        when{
+     branch "dev"
+     }
     steps{
          sh "mvn clean package"
     }
    }
    stage('Upload to nexus'){
+        when{
+     branch "dev"
+     }
     steps{
    script{
      def pom = readMavenPom file: 'pom.xml'
-
-     def repository=pom.version.endsWith("SNAPSHOT") ? 'jyothihome-snapshot' : 'jyothihome-release'
+      
+      def repository=pom.version.endsWith("SNAPSHOT") ? 'jyothihome-snapshot' : 'jyothihome-release'
 
       nexusArtifactUploader artifacts: 
       [[artifactId: 'myweb', classifier: '',file: "target/myweb-${pom.version}.war", type: 'war']], 
@@ -31,11 +37,28 @@ stages{
    }
 stage('dev-deploy'){
      when{
-     branch "dev"
+     branch "develop"
      }
      steps{
       echo "deploy to dev enironment"
-       }
-    }
+        }
+     }
+     stage('uat-deploy'){
+     when{
+     branch "uat"
+     }
+     steps{
+      echo "deploy to uat enironment"
+        }
+     }
+     
+     stage('prod-deploy'){
+     when{
+     branch "master"
+     }
+     steps{
+      echo "deploy to prod enironment"
+        }
+     }
   }
 }

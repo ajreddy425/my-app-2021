@@ -12,7 +12,7 @@ agent any
                                                 }
                                                    stage('Docker build image'){
                                                              steps{
-                                                               sh "docker build -t jyothi/2021myapp:v1 . "
+                                                               sh "docker build -t jyothihomedocker/2021myapp:v1 . "
                                                              }
                                                    }
                                                         stage('push to docker hub'){

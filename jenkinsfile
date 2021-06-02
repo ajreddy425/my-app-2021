@@ -5,60 +5,27 @@ tools{
 }
 
 stages{
-   stage('maven build'){
-        when{
-     branch "develop"
-     }
-    steps{
-         sh "mvn clean package"
-    }
+         stage('maven build'){
+           steps{
+               sh "mvn clean package"
+          }
    }
-   stage('Upload to nexus'){
-        when{
-     branch "develop"
-     }
-    steps{
-   script{
-     def pom = readMavenPom file: 'pom.xml'
-      
-      def repository=pom.version.endsWith("SNAPSHOT") ? 'jyothihome-snapshot' : 'jyothihome-release'
-
-      nexusArtifactUploader artifacts: 
-      [[artifactId: 'myweb', classifier: '',file: "target/myweb-${pom.version}.war", type: 'war']], 
-       credentialsId: 'admin', 
-       groupId: 'in.javahome', 
-       nexusUrl: '172.31.75.95:8081', 
-       nexusVersion: 'nexus3', 
-       protocol: 'http', 
-       repository: repository,
-       version: pom.version
-      }
-    }
+   stage('Docker build image'){
+             steps{
+               sh "docker build -t jyothi/2021myapp:v1 . "
+             }
    }
-stage('dev-deploy'){
-     when{
-     branch "develop"
-     }
+stage('push to docker hub'){
      steps{
       echo "deploy to dev enironment"
         }
      }
-     stage('uat-deploy'){
-     when{
-     branch "uat"
-     }
+     stage('dev-deploy'){
+    
      steps{
-      echo "deploy to uat enironment"
+      echo "deploy to dev enironment"
         }
      }
      
-     stage('prod-deploy'){
-     when{
-     branch "master"
-     }
-     steps{
-      echo "deploy to prod enironment"
-        }
-     }
   }
 }

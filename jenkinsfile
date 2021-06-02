@@ -19,7 +19,7 @@ agent any
                                                                 steps{
                                                                       withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpass')]) {
                                                                                         sh   "docker login -u jyothihomedocker -p ${dockerpass}"
-                                                                                        sh "docker push jyothi/2021myapp:v1"
+                                                                                        sh "docker push jyothihomedocker/2021myapp:v1"
                                                                                      }
                                                                 }
 

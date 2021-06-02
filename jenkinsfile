@@ -27,7 +27,10 @@ agent any
 
                                                         stage('dev-deploy'){
                                                                 steps{
-                                                               echo "deploy to dev enironment"
+                                                                      sshagent(['docker-dev']) {
+                                                                                 sh "ssh ec2-user@172.31.18.251 docker run -d -p 8080:8080 jyothihomedocker/2021myapp:v1"
+                                                                                }
+                                                             
                                                                  }
                                                         }
                                     }

@@ -16,8 +16,12 @@ stages{
              }
    }
 stage('push to docker hub'){
-     steps{
-      echo "deploy to dev enironment"
+                          steps{
+                              withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpassword')]) {
+                         sh "docker login -u jyothi -p ${dockerpassword}"
+                         sh "docker push  jyothi/2021myapp:v1"
+                     }
+      
         }
      }
      stage('dev-deploy'){

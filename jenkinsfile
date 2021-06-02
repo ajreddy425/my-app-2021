@@ -15,9 +15,9 @@ agent any
                                                                sh "docker build -t jyothihomedocker/2021myapp:v1 . "
                                                              }
                                                    }
-                                                        stage('push to docker hub'){
+                                                        stage('Push to Docker Hub'){
                                                                 steps{
-                                                                      withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpass')]) {
+                                                                      withCredentials([string(credentialsId: 'Docker-Hub', variable: 'dockerpass')]) {
                                                                                         sh   "docker login -u jyothihomedocker -p ${dockerpass}"
                                                                                         sh "docker push jyothihomedocker/2021myapp:v1"
                                                                                      }

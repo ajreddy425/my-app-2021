@@ -1,35 +1,35 @@
 pipeline{
 agent any
-tools{
-   maven 'maven3'
+                  tools{
+                     maven 'maven3'
+                  }
+
+                                     stages{
+                                                      stage('maven build'){
+                                                        steps{
+                                                            sh "mvn clean package"
+                                                       }
+                                                }
+                                                   stage('Docker build image'){
+                                                             steps{
+                                                               sh "docker build -t jyothi/2021myapp:v1 . "
+                                                             }
+                                                   }
+                                                        stage('push to docker hub'){
+                                                                steps{
+                                                                      withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpass')]) {
+                                                                                        sh   "docker login -u jyothihomedocker -p ${dockerpass}"
+                                                                                        sh "docker push jyothi/2021myapp:v1"
+                                                                                     }
+                                                                }
+
+                                                           }
+
+                                                        stage('dev-deploy'){
+                                                                steps{
+                                                               echo "deploy to dev enironment"
+                                                                 }
+                                                        }
+                                    }
+
 }
-
-stages{
-         stage('maven build'){
-           steps{
-               sh "mvn clean package"
-          }
-   }
-   stage('Docker build image'){
-             steps{
-               sh "docker build -t jyothi/2021myapp:v1 . "
-             }
-   }
-                                             stage('push to docker hub'){
-                             steps{
-                                     withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpass')]) {
-                                                       sh   "docker login -u jyothihomedocker -p ${dockerpass}"
-                                                       sh "docker push jyothi/2021myapp:v1"
-                                      }
-                        }
-
-        }
-     }
-              stage('dev-deploy'){
-                      steps{
-                     echo "deploy to dev enironment"
-                       }
-              }
-     
-  }
-

@@ -25,12 +25,12 @@ stage('push to docker hub'){
       
         }
      }
-     stage('dev-deploy'){
-    
-     steps{
-      echo "deploy to dev enironment"
-        }
-     }
+              stage('dev-deploy'){
+
+                    steps{
+                     echo "deploy to dev enironment"
+                       }
+              }
      
   }
-}
+

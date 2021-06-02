@@ -17,9 +17,10 @@ stages{
    }
 stage('push to docker hub'){
                           steps{
-                              withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpassword')]) {
-                         sh "docker login -u jyothi -p ${dockerpassword}"
-                         sh "docker push  jyothi/2021myapp:v1"
+                                  withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpass')]) {
+                                                    sh   "docker login -u jyothihomedocker -p ${dockerpass}"
+                                                    sh "docker push jyothi/2021myapp:v1"
+                                   }
                      }
       
         }

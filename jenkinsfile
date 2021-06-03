@@ -27,10 +27,9 @@ agent any
 
                                                         stage('dev-deploy'){
                                                                 steps{
-                                                                     sshagent(['new-docker-dev']) {
-                                                                                sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.50.204 docker run -d -p 9095:8080 jyothihomedocker/2021myapp:v3"
-                                                                                
-                                                                              }
+                                                                    sshagent(['docker_host_dev']) {
+                                                                               sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.50.204 docker run -d -p 9090:8080 jyothihomedocker/2021myapp:v3" 
+                                                                            }
                                                                                 
                                                              
                                                                  }

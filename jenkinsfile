@@ -12,14 +12,14 @@ agent any
                                                 }
                                                    stage('Docker build image'){
                                                              steps{
-                                                               sh "docker build -t jyothihomedocker/2021myapp:v1 . "
+                                                               sh "docker build -t jyothihomedocker/2021myapp:v2 . "
                                                              }
                                                    }
                                                         stage('Push to Docker Hub'){
                                                                 steps{
                                                                       withCredentials([string(credentialsId: 'docker-hub-new', variable: 'dockerpwd')]) {
                                                                                     sh "docker login -u jyothihomedocker -p ${dockerpwd}"
-                                                                                    sh "docker push jyothihomedocker/2021myapp:v1"
+                                                                                    sh "docker push jyothihomedocker/2021myapp:v2"
                                                                                 }
                                                                 }
 
@@ -28,7 +28,7 @@ agent any
                                                         stage('dev-deploy'){
                                                                 steps{
                                                                      
-                                                                   sh "docker run -d -p 8080:8080  jyothihomedocker/2021myapp:v1"             
+                                                                   sh "docker run -d -p 8080:8080  jyothihomedocker/2021myapp:v2"             
                                                              
                                                                  }
                                                         }

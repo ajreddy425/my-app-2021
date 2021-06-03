@@ -17,10 +17,10 @@ agent any
                                                    }
                                                         stage('Push to Docker Hub'){
                                                                 steps{
-                                                                      withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerpass')]) {
-                                                                                        sh   "docker login -u jyothihomedocker -p ${dockerpass}"
-                                                                                        sh "docker push jyothihomedocker/2021myapp:v1"
-                                                                                     }
+                                                                      withCredentials([string(credentialsId: 'docker-hub-new', variable: 'dockerpwd')]) {
+                                                                                    sh "docker login -u jyothihomedocker -p ${dockerpwd}"
+                                                                                    sh "docker push jyothihomedocker/2021myapp:v1"
+                                                                                }
                                                                 }
 
                                                            }

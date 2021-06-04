@@ -12,14 +12,14 @@ agent any
                                                 }
                                                    stage('Docker build image'){
                                                              steps{
-                                                               sh "docker build -t jyothihomedocker/2021myapp:v3 . "
+                                                               sh "docker build -t jyothihomedocker/2021myapp:${getLatestCommitId()} . "
                                                              }
                                                    }
                                                         stage('Push to Docker Hub'){
                                                                 steps{
                                                                       withCredentials([string(credentialsId: 'docker-hub-new', variable: 'dockerpwd')]) {
                                                                                     sh "docker login -u jyothihomedocker -p ${dockerpwd}"
-                                                                                    sh "docker push jyothihomedocker/2021myapp:v3"
+                                                                                    sh "docker push jyothihomedocker/2021myapp:${getLatestCommitId()}"
                                                                                 }
                                                                 }
 
@@ -29,7 +29,7 @@ agent any
                                                                 steps{
                                                                     sshagent(['docker_host_dev']) {
                                                                               sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.50.204 docker rm -f mywebapp"
-                                                                               sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.50.204 docker run -d -p 9090:8080 --name mywebapp jyothihomedocker/2021myapp:v3" 
+                                                                               sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.50.204 docker run -d -p 9090:8080 --name mywebapp jyothihomedocker/2021myapp:${getLatestCommitId()}" 
                                                                             }
                                                                                 
                                                              
@@ -37,4 +37,8 @@ agent any
                                                         }
                                     }
 
+}
+def getLatestCommitId(){
+  def commitId = sh returnStdout: true, script: 'git rev-parse --short HEAD'
+  return commitId
 }

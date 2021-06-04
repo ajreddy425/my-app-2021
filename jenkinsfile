@@ -13,7 +13,7 @@ agent any
                                                 }
                                                    stage('Docker build image'){
                                                              steps{
-                                                               sh "docker build -t jyothihomedocker/2021myapp:${getLatestCommitId()} . "
+                                                               sh "docker build . -t jyothihomedocker/2021myapp:${getLatestCommitId()}"
                                                              }
                                                    }
                                                         stage('Push to Docker Hub'){
